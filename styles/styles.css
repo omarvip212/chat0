@@ -1,0 +1,1255 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f6d1fc 0%, #fff4f4 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #ff69b4;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#yes-btn {
+    background: #ff69b4;
+    color: white;
+}
+
+#no-btn {
+    background: #808080;
+    color: white;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.room-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.room-options button {
+    background: #ff69b4;
+    color: white;
+    width: 100%;
+}
+
+.auth-container {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border: 2px solid #eee;
+    border-radius: 25px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 0 3px rgba(255,105,180,0.1);
+    outline: none;
+}
+
+.input-group i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ff69b4;
+    transition: all 0.3s ease;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,105,180,0.3);
+}
+
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-links {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.auth-links a {
+    color: #ff69b4;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 0.9rem;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.input-group input:focus ~ .cat .cat-eye {
+    height: 20px;
+    border-radius: 50% 50% 0 0;
+}
+
+/* إضافة هذه الأنماط للتنبيهات */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: white;
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.success {
+    border-right: 4px solid #4CAF50;
+}
+
+.toast.error {
+    border-right: 4px solid #f44336;
+}
+
+/* تعطيل الأزرار */
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* تحديث الستايل للصفحة الرئيسية */
+.user-info {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.user-info span {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.logout-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+.room-options button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.1rem;
+}
+
+.room-options button i {
+    font-size: 1.2rem;
+}
+
+/* تحريك القطة */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.cat.happy {
+    animation: bounce 2s infinite;
+}
+
+/* إضافة هذه الأنماط في نهاية الملف */
+
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.toggle-password {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.toggle-password:hover {
+    color: #ff69b4;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    max-width: 80%;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.success {
+    border-right: 4px solid #4CAF50;
+}
+
+.toast.error {
+    border-right: 4px solid #f44336;
+}
+
+.toast i {
+    font-size: 1.2rem;
+}
+
+.toast.success i {
+    color: #4CAF50;
+}
+
+.toast.error i {
+    color: #f44336;
+}
+
+.auth-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-btn:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255,255,255,0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.auth-btn:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+.input-group input:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 0 3px rgba(255,105,180,0.1);
+}
+
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.auth-btn i {
+    margin-left: 5px;
+}
+
+@media (max-width: 480px) {
+    .toast {
+        right: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+}
+
+/* تحديث الستايل للنموذج */
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    user-select: none;
+}
+
+.remember-me label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #666;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #ff69b4;
+}
+
+.social-login {
+    margin-top: 1.5rem;
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+}
+
+.social-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.social-btn.google {
+    background: #fff;
+    color: #444;
+    border: 1px solid #ddd;
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.social-btn.google:hover {
+    background: #f8f8f8;
+}
+
+/* تحسين الأزرار */
+.auth-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.auth-btn i {
+    font-size: 1.1rem;
+}
+
+/* تحسين المدخلات */
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 40px;
+    border: 2px solid #eee;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 0 3px rgba(255,105,180,0.1);
+}
+
+.input-group i:not(.toggle-password i) {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ff69b4;
+}
+
+/* تحريك القطة */
+.cat {
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus ~ .cat {
+    transform: translateY(-10px);
+}
+
+/* تحسين الروابط */
+.auth-links {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+.auth-links a {
+    color: #ff69b4;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.auth-links a:hover {
+    color: #ff1493;
+    text-decoration: underline;
+}
+
+/* تحسين التوست */
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-size: 0.9rem;
+    z-index: 1000;
+}
+
+/* إضافة هذه الأنماط في نهاية الملف */
+
+/* تحسينات القطة */
+.cat {
+    transition: all 0.3s ease;
+}
+
+.cat.happy .cat-eye {
+    height: 8px;
+    animation: blink 4s infinite;
+}
+
+.cat.sad .cat-eye {
+    height: 12px;
+    border-radius: 50%;
+    animation: none;
+}
+
+/* تحسينات النموذج */
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 40px 12px 45px;
+    border: 2px solid #eee;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 0 3px rgba(255,105,180,0.1);
+}
+
+.input-group i:not(.toggle-password i) {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ff69b4;
+}
+
+.toggle-password {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.toggle-password:hover {
+    color: #ff69b4;
+}
+
+/* رسائل الخطأ والنجاح */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.error {
+    border-right: 4px solid #dc3545;
+}
+
+.toast.success {
+    border-right: 4px solid #28a745;
+}
+
+.toast i {
+    font-size: 1.2rem;
+}
+
+.toast.error i {
+    color: #dc3545;
+}
+
+.toast.success i {
+    color: #28a745;
+}
+
+/* تحسينات الأزرار */
+.auth-btn {
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255,105,180,0.3);
+}
+
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-btn i {
+    font-size: 1.1rem;
+}
+
+/* تحسينات التذكر */
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.remember-me label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    color: #666;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #ff69b4;
+}
+
+/* تحسينات للموبايل */
+@media (max-width: 480px) {
+    .toast {
+        right: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .auth-container {
+        padding: 20px;
+    }
+}
+
+/* تحسينات النموذج والرسائل */
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 40px 12px 45px;
+    border: 2px solid #eee;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 0 3px rgba(255,105,180,0.1);
+    outline: none;
+}
+
+.input-group i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ff69b4;
+}
+
+/* تحسينات رسائل الخطأ والنجاح */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.error {
+    border-right: 4px solid #dc3545;
+}
+
+.toast.success {
+    border-right: 4px solid #28a745;
+}
+
+.toast i {
+    font-size: 1.2rem;
+}
+
+.toast.error i {
+    color: #dc3545;
+}
+
+.toast.success i {
+    color: #28a745;
+}
+
+/* تحسينات القطة */
+.cat {
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.cat.happy .cat-eye {
+    height: 8px;
+    animation: blink 4s infinite;
+}
+
+.cat.sad .cat-eye {
+    height: 12px;
+    border-radius: 50%;
+    animation: none;
+}
+
+@keyframes blink {
+    0%, 45%, 55%, 100% { height: 8px; }
+    50% { height: 1px; }
+}
+
+/* تحسينات الأزرار */
+.auth-btn {
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255,105,180,0.3);
+}
+
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-btn i {
+    font-size: 1.1rem;
+}
+
+/* تحسينات التذكر */
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.remember-me label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    color: #666;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #ff69b4;
+}
+
+/* تحسينات للموبايل */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    .toast {
+        right: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+}
+
+/* تحسينات الروابط */
+.auth-links {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.auth-links a {
+    color: #ff69b4;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.auth-links a:hover {
+    color: #ff1493;
+    text-decoration: underline;
+}
+
+/* تحسينات الحاوية */
+.auth-container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* تحسينات العنوان */
+h2 {
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+/* تحسينات رسائل الاتصال */
+.toast.connection {
+    background: #fff3cd;
+    border-right: 4px solid #ffc107;
+}
+
+.toast.connection i {
+    color: #ffc107;
+}
+
+/* تحسينات حالة التحميل */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #ff69b4;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* تحسينات الأزرار */
+.auth-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.auth-btn:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+/* تحسينات حقول الإدخال */
+.input-group input:focus + i {
+    color: #ff1493;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.input-group input.error {
+    border-color: #dc3545;
+}
+
+.input-group input.error + i {
+    color: #dc3545;
+}
+
+/* تحسينات القطة */
+.cat.loading .cat-eye {
+    animation: blink 0.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { height: 8px; }
+    50% { height: 2px; }
+}
+
+/* تحسينات عامة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f6d1fc 0%, #fff4f4 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+/* تحسينات النموذج */
+.auth-container {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border: 2px solid #eee;
+    border-radius: 25px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 0 3px rgba(255,105,180,0.1);
+    outline: none;
+}
+
+.input-group i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ff69b4;
+    transition: all 0.3s ease;
+}
+
+/* تحسينات الأزرار */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,105,180,0.3);
+}
+
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* تحسينات رسائل الخطأ */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.error {
+    border-right: 4px solid #dc3545;
+}
+
+.toast.success {
+    border-right: 4px solid #28a745;
+}
+
+/* تحسينات القطة */
+.cat {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.cat-head {
+    width: 80px;
+    height: 80px;
+    background: #ff69b4;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.cat-ear {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 30px solid #ff69b4;
+    position: absolute;
+    top: -20px;
+}
+
+.cat-ear.left {
+    left: 0;
+    transform: rotate(-30deg);
+}
+
+.cat-ear.right {
+    right: 0;
+    transform: rotate(30deg);
+}
+
+.cat-eye {
+    width: 12px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 40%;
+}
+
+.cat-eye.left {
+    left: 25%;
+}
+
+.cat-eye.right {
+    right: 25%;
+}
+
+.cat-nose {
+    width: 12px;
+    height: 8px;
+    background: #ff1493;
+    border-radius: 50%;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* تحسينات التحميل */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #ff69b4;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* تحسينات الروابط */
+.auth-links {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.auth-links a {
+    color: #ff69b4;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.auth-links a:hover {
+    color: #ff1493;
+    text-decoration: underline;
+}
+
+/* تحسينات للموبايل */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .auth-container {
+        padding: 20px;
+    }
+
+    .toast {
+        right: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+}
+
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #ff5ca8;
+}

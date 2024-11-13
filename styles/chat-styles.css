@@ -1,0 +1,653 @@
+.chat-container {
+    max-width: 1000px;
+    height: 90vh;
+    margin: 2rem auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.room-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.room-status {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.icon-btn:hover {
+    background: #f0f0f0;
+}
+
+.icon-btn.danger {
+    color: #dc3545;
+}
+
+.icon-btn.danger:hover {
+    background: #ffebee;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.message {
+    max-width: 70%;
+    padding: 0.8rem 1rem;
+    border-radius: 15px;
+    position: relative;
+}
+
+.message.received {
+    background: #f0f0f0;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.message.sent {
+    background: #ff69b4;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.message-time {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 0.3rem;
+}
+
+.typing-indicator {
+    display: none;
+    padding: 1rem;
+    gap: 0.3rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #ff69b4;
+    border-radius: 50%;
+    animation: bounce 1.5s infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+}
+
+.chat-input {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.input-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+#message-input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 2px solid #eee;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+#message-input:focus {
+    border-color: #ff69b4;
+    outline: none;
+}
+
+.input-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.send-btn {
+    background: #ff69b4;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.send-btn:hover {
+    transform: scale(1.1);
+}
+
+/* المودال */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.emoji-content {
+    width: 350px;
+    height: 400px;
+}
+
+#emoji-container {
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* إضافة الثيمات */
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --message-bg: #2d2d2d;
+    --message-sent: #ff69b4;
+    --border-color: #333;
+}
+
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --message-bg: #f0f0f0;
+    --message-sent: #ff69b4;
+    --border-color: #eee;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* ردود الفعل */
+.reaction-picker {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 20px;
+    padding: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 5px;
+    z-index: 100;
+}
+
+.reaction-picker button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: transform 0.2s;
+}
+
+.reaction-picker button:hover {
+    transform: scale(1.2);
+}
+
+.message-reactions {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.reaction {
+    background: rgba(255,255,255,0.9);
+    padding: 2px 5px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+/* تحسينات إضافية */
+.message {
+    transition: transform 0.2s;
+}
+
+.message:hover {
+    transform: scale(1.02);
+}
+
+.typing-indicator {
+    background: var(--message-bg);
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message {
+    animation: fadeIn 0.3s ease;
+}
+
+/* أزرار الوسائط */
+.media-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.media-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.media-btn:hover {
+    background: #f0f0f0;
+    color: #ff69b4;
+}
+
+/* مودال الملصقات */
+.sticker-content, .gif-content {
+    width: 400px;
+    height: 500px;
+    padding: 1rem;
+}
+
+.sticker-categories {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.sticker-categories button {
+    background: none;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sticker-categories button.active {
+    background: #ff69b4;
+    color: white;
+}
+
+.sticker-grid, .gif-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    overflow-y: auto;
+    height: calc(100% - 60px);
+    padding: 10px;
+}
+
+.sticker-item, .gif-item {
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.sticker-item img, .gif-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sticker-item:hover, .gif-item:hover {
+    transform: scale(1.05);
+}
+
+/* GIF البحث */
+.gif-search {
+    margin-bottom: 1rem;
+}
+
+.gif-search input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #eee;
+    border-radius: 20px;
+    font-size: 1rem;
+}
+
+/* الرسائل الوسائطية */
+.message.media-message {
+    max-width: 250px;
+}
+
+.message.media-message img {
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* المعاينة */
+.media-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.media-preview img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+}
+
+/* تحميل */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #ff69b4;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* أزرار المكالمة */
+.call-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 50%;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.call-btn:hover {
+    background: #f0f0f0;
+    color: #ff69b4;
+}
+
+/* مودال المكالمة */
+.call-content {
+    width: 800px;
+    height: 600px;
+    padding: 0;
+    background: #1a1a1a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.call-header {
+    padding: 1rem;
+    text-align: center;
+    background: rgba(0,0,0,0.5);
+}
+
+.caller-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.caller-avatar {
+    width: 50px;
+    height: 50px;
+    background: #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.call-streams {
+    flex: 1;
+    position: relative;
+    background: #000;
+}
+
+#remote-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#local-video {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+    border: 2px solid white;
+    object-fit: cover;
+}
+
+.call-controls {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: rgba(0,0,0,0.5);
+}
+
+.control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+}
+
+.control-btn.danger {
+    background: #dc3545;
+}
+
+.control-btn.off {
+    background: #666;
+}
+
+/* حالات المكالمة */
+.calling #call-status {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* تسجيل الصوت */
+.voice-recording-ui {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+    background: #f8f8f8;
+    border-radius: 20px;
+    animation: slideIn 0.3s ease;
+}
+
+.recording-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.recording-wave {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ff69b4;
+    animation: pulse 1s infinite;
+}
+
+.recording-time {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* الرسائل الصوتية */
+.voice-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.voice-message.playing {
+    background: #ffe6f2;
+}
+
+.voice-message .play-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ff69b4;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.voice-message .play-btn:hover {
+    transform: scale(1.1);
+}
+
+.voice-message .waveform {
+    flex: 1;
+    height: 40px;
+    background: white;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.voice-message .waveform-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(255, 105, 180, 0.2);
+    transition: width 0.1s linear;
+}
+
+.voice-message .duration {
+    font-size: 0.8rem;
+    color: #666;
+}

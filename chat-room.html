@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Chat Room</title>
+    <link rel="stylesheet" href="styles/chat-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-left">
+                <button id="back-btn" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="room-info">
+                    <h2>Love Chat Room</h2>
+                    <div class="room-status">
+                        <span id="online-users">0</span> متصل الآن
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="voice-call-btn" class="call-btn">
+                    <i class="fas fa-phone"></i>
+                </button>
+                <button id="video-call-btn" class="call-btn">
+                    <i class="fas fa-video"></i>
+                </button>
+                <span>كود الغرفة: </span>
+                <span id="room-code" class="room-code"></span>
+                <button id="copy-code" class="icon-btn">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button id="qr-code" class="icon-btn">
+                    <i class="fas fa-qrcode"></i>
+                </button>
+                <button id="share-room" class="icon-btn">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+                <button id="logout-btn" class="icon-btn danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <!-- الرسائل ستظهر هنا -->
+        </div>
+
+        <div class="typing-indicator" id="typing-indicator">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <div class="chat-input">
+            <div class="input-container">
+                <div class="media-buttons">
+                    <button id="sticker-btn" class="media-btn">
+                        <i class="fas fa-sticky-note"></i>
+                    </button>
+                    <button id="gif-btn" class="media-btn">
+                        <i class="fas fa-images"></i>
+                    </button>
+                </div>
+                
+                <div class="message-input-wrapper">
+                    <input type="text" id="message-input" placeholder="اكتب رسالتك هنا...">
+                    <button id="voice-record-btn" class="media-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+
+                <div class="voice-recording-ui" style="display: none;">
+                    <div class="recording-indicator">
+                        <div class="recording-wave"></div>
+                        <span class="recording-time">00:00</span>
+                    </div>
+                    <button id="stop-recording" class="media-btn danger">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                    <button id="cancel-recording" class="media-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="input-actions">
+                    <button id="emoji-btn" class="media-btn">
+                        <i class="far fa-smile"></i>
+                    </button>
+                    <button id="send-btn" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال QR -->
+    <div id="qr-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>مشاركة الغرفة</h3>
+            <div id="qr-container"></div>
+        </div>
+    </div>
+
+    <!-- مودال الإيموجي -->
+    <div id="emoji-modal" class="modal">
+        <div class="modal-content emoji-content">
+            <span class="close">&times;</span>
+            <div id="emoji-container"></div>
+        </div>
+    </div>
+
+    <!-- مودال الملصقات -->
+    <div id="sticker-modal" class="modal">
+        <div class="modal-content sticker-content">
+            <span class="close">&times;</span>
+            <div class="sticker-categories">
+                <button class="active" data-category="love">❤️ حب</button>
+                <button data-category="cats">🐱 قطط</button>
+                <button data-category="funny">😄 مضحك</button>
+            </div>
+            <div id="sticker-container" class="sticker-grid"></div>
+        </div>
+    </div>
+
+    <!-- مودال GIF -->
+    <div id="gif-modal" class="modal">
+        <div class="modal-content gif-content">
+            <span class="close">&times;</span>
+            <div class="gif-search">
+                <input type="text" id="gif-search" placeholder="ابحث عن GIF...">
+            </div>
+            <div id="gif-container" class="gif-grid"></div>
+        </div>
+    </div>
+
+    <!-- مودال المكالمة -->
+    <div id="call-modal" class="modal">
+        <div class="modal-content call-content">
+            <div class="call-header">
+                <h3 id="call-status">جاري الاتصال...</h3>
+                <div class="caller-info">
+                    <div class="caller-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span id="caller-name">اسم المستخدم</span>
+                </div>
+            </div>
+            
+            <div class="call-streams">
+                <video id="remote-video" autoplay playsinline></video>
+                <video id="local-video" autoplay playsinline muted></video>
+            </div>
+
+            <div class="call-controls">
+                <button id="toggle-mic" class="control-btn">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button id="toggle-video" class="control-btn">
+                    <i class="fas fa-video"></i>
+                </button>
+                <button id="end-call" class="control-btn danger">
+                    <i class="fas fa-phone-slash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@11.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.12.1/index.js" type="module"></script>
+    <script type="module" src="js/appwrite-config.js"></script>
+    <script type="module" src="js/chat.js"></script>
+    <script type="module" src="js/voice-recorder.js"></script>
+    <script type="module" src="js/notifications.js"></script>
+    <script type="module" src="js/sounds.js"></script>
+    <script type="module" src="js/media-manager.js"></script>
+</body>
+</html> 

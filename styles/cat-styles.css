@@ -1,0 +1,77 @@
+.cat {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 50px auto;
+}
+
+.cat-head {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cat-ear {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 40px solid #f0f0f0;
+}
+
+.cat-ear.left {
+    transform: rotate(-30deg);
+    left: 10px;
+    top: -20px;
+}
+
+.cat-ear.right {
+    transform: rotate(30deg);
+    right: 10px;
+    top: -20px;
+}
+
+.cat-eye {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #333;
+    border-radius: 50%;
+    top: 40%;
+}
+
+.cat-eye.left {
+    left: 25%;
+}
+
+.cat-eye.right {
+    right: 25%;
+}
+
+.cat-nose {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff69b4;
+    border-radius: 50%;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* للحالة الحزينة */
+.cat.sad .cat-eye {
+    transform: rotate(30deg);
+}
+
+/* للحالة السعيدة */
+.cat.happy .cat-eye {
+    height: 20px;
+    border-radius: 50% 50% 0 0;
+} 
