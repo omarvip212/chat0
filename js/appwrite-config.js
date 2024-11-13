@@ -16,4 +16,4 @@ export const DATABASE_ID = 'love-chat-db';
 export const MESSAGES_COLLECTION_ID = 'messages';
 export const ROOMS_COLLECTION_ID = 'rooms';
 export const USERS_COLLECTION_ID = 'users';
-export const STORAGE_BUCKET = 'media-files'; 
+export const BUCKET_ID = 'media-files'; 

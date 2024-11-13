@@ -1,7 +1,16 @@
 import { account } from './appwrite-config.js';
-const { ID } = Appwrite;
 
-// استمع لحدث تقديم النموذج
+// دالة لعرض رسائل الخطأ
+function showError(message) {
+    const errorDiv = document.getElementById('error-message');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    setTimeout(() => {
+        errorDiv.style.display = 'none';
+    }, 5000);
+}
+
+// معالجة نموذج التسجيل
 document.getElementById('register-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -9,22 +18,39 @@ document.getElementById('register-form')?.addEventListener('submit', async (e) =
     const password = document.getElementById('password').value;
     
     try {
+        // التحقق من وجود الحساب
+        try {
+            await account.get();
+            showError('هذا البريد الإلكتروني مسجل مسبقاً');
+            return;
+        } catch {
+            // إذا لم يكن الحساب موجوداً، نتابع التسجيل
+        }
+
         // إنشاء حساب جديد
         await account.create(
-            ID.unique(),
+            crypto.randomUUID(), // معرف فريد
             email,
             password
         );
         
-        // تسجيل الدخول مباشرة بعد التسجيل
+        // تسجيل الدخول مباشرة
         await account.createEmailSession(email, password);
         
-        // توجيه المستخدم إلى الصفحة الرئيسية
+        // توجيه المستخدم للصفحة الرئيسية
         window.location.href = 'index.html';
         
     } catch (error) {
         console.error('خطأ في التسجيل:', error);
-        alert('حدث خطأ في التسجيل. الرجاء المحاولة مرة أخرى.');
+        
+        // معالجة الأخطاء المختلفة
+        if (error.code === 409) {
+            showError('هذا البريد الإلكتروني مسجل مسبقاً');
+        } else if (error.code === 400) {
+            showError('بيانات غير صالحة. تأكد من صحة البريد الإلكتروني وكلمة المرور');
+        } else {
+            showError('حدث خطأ في التسجيل. الرجاء المحاولة مرة أخرى');
+        }
     }
 });
 

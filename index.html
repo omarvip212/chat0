@@ -5,12 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Chat</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- المحتوى الحالي -->
-    
-    <!-- تحديث ترتيب السكربتات -->
-    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1/dist/iife/sdk.min.js"></script>
+    <div class="container">
+        <header>
+            <h1>Love Chat</h1>
+            <div class="user-info">
+                <span id="username">مرحباً</span>
+                <button id="logout-btn" class="btn-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل خروج
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="room-options">
+                <button id="create-room" class="btn-primary">
+                    <i class="fas fa-plus"></i>
+                    إنشاء غرفة جديدة
+                </button>
+                <div class="join-room">
+                    <input type="text" id="room-code" placeholder="أدخل كود الغرفة">
+                    <button id="join-room" class="btn-secondary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        انضمام
+                    </button>
+                </div>
+            </div>
+
+            <div class="active-rooms" id="active-rooms">
+                <!-- ستظهر الغرف النشطة هنا -->
+            </div>
+        </main>
+    </div>
+
+    <!-- إضافة مودال الإشعارات -->
+    <div id="notification" class="notification" style="display: none;">
+        <span id="notification-message"></span>
+    </div>
+
+    <!-- ترتيب السكربتات مهم جداً -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
     <script type="module" src="js/appwrite-config.js"></script>
     <script type="module" src="js/script.js"></script>
 </body>
