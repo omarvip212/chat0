@@ -1,22 +1,30 @@
-import { Client, Account, Databases, Storage, Query } from 'appwrite';
-
-const client = new Client();
+const client = new Appwrite.Client();
 
 client
     .setEndpoint('https://cloud.appwrite.io/v1')
     .setProject('67326caa002eb5f7c285');
 
-console.log('Appwrite client initialized');
+const account = new Appwrite.Account(client);
+const databases = new Appwrite.Databases(client);
+const storage = new Appwrite.Storage(client);
 
-export const account = new Account(client);
-export const databases = new Databases(client);
-export const storage = new Storage(client);
+const DATABASE_ID = 'love-chat-db';
+const MESSAGES_COLLECTION_ID = 'messages';
+const ROOMS_COLLECTION_ID = 'rooms';
+const USERS_COLLECTION_ID = 'users';
+const BUCKET_ID = 'media-files';
 
-export const DATABASE_ID = 'love-chat-db';
-export const MESSAGES_COLLECTION_ID = 'messages';
-export const ROOMS_COLLECTION_ID = 'rooms';
-export const USERS_COLLECTION_ID = 'users';
-export const BUCKET_ID = 'media-files';
+export { 
+    client,
+    account,
+    databases,
+    storage,
+    DATABASE_ID,
+    MESSAGES_COLLECTION_ID,
+    ROOMS_COLLECTION_ID,
+    USERS_COLLECTION_ID,
+    BUCKET_ID
+};
 
-export { Query };
+console.log('Appwrite تم تهيئة');
   

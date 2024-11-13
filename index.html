@@ -5,48 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Chat</title>
     <link rel="stylesheet" href="styles/styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Love Chat</h1>
-            <div class="user-info">
-                <span id="username">مرحباً</span>
-                <button id="logout-btn" class="btn-danger">
-                    <i class="fas fa-sign-out-alt"></i>
-                    تسجيل خروج
-                </button>
-            </div>
-        </header>
+        <h1>Love Chat</h1>
+        <div id="user-info">
+            <span id="username">مرحباً</span>
+            <button id="logout-btn">تسجيل خروج</button>
+        </div>
 
-        <main>
-            <div class="room-options">
-                <button id="create-room" class="btn-primary">
-                    <i class="fas fa-plus"></i>
-                    إنشاء غرفة جديدة
-                </button>
-                <div class="join-room">
-                    <input type="text" id="room-code" placeholder="أدخل كود الغرفة">
-                    <button id="join-room" class="btn-secondary">
-                        <i class="fas fa-sign-in-alt"></i>
-                        انضمام
-                    </button>
-                </div>
-            </div>
+        <button id="create-room" class="btn-primary">إنشاء غرفة جديدة</button>
+        <div class="join-room">
+            <input type="text" id="room-code" placeholder="أدخل كود الغرفة">
+            <button id="join-room">انضمام</button>
+        </div>
 
-            <div class="active-rooms" id="active-rooms">
-                <!-- ستظهر الغرف النشطة هنا -->
-            </div>
-        </main>
+        <div id="active-rooms"></div>
     </div>
 
-    <!-- إضافة مودال الإشعارات -->
-    <div id="notification" class="notification" style="display: none;">
-        <span id="notification-message"></span>
-    </div>
-
-    <!-- ترتيب السكربتات مهم جداً -->
     <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
     <script type="module" src="js/appwrite-config.js"></script>
     <script type="module" src="js/script.js"></script>
