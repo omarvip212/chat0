@@ -1,14 +1,14 @@
 import { Client, Account, Databases, Storage, Query } from "https://cdn.jsdelivr.net/npm/appwrite@13.0.1/dist/esm/sdk.js";
 
-const client = new Client();
+const client = new window.Appwrite.Client();
 
 client
     .setEndpoint('https://cloud.appwrite.io/v1')
     .setProject('67326caa002eb5f7c285');
 
-const account = new Account(client);
-const databases = new Databases(client);
-const storage = new Storage(client);
+const account = new window.Appwrite.Account(client);
+const databases = new window.Appwrite.Databases(client);
+const storage = new window.Appwrite.Storage(client);
 
 const DATABASE_ID = '6732714e0015c2825b31';
 const MESSAGES_COLLECTION_ID = 'messages';

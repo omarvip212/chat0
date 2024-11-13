@@ -1,21 +1,13 @@
-import { account, databases, DATABASE_ID, ROOMS_COLLECTION_ID, Query } from './appwrite-config.js';
+import { account, databases, DATABASE_ID, ROOMS_COLLECTION_ID } from './appwrite-config.js';
 
-// التحقق من تسجيل الدخول عند تحميل الصفحة
-async function checkAuth() {
-    try {
-        const user = await account.get();
-        return user;
-    } catch (error) {
-        console.error('Error checking auth:', error);
-        return null;
-    }
-}
-
-// إنشاء غرفة جديدة
+// دالة إنشاء غرفة جديدة
 async function createChatRoom() {
     try {
         const user = await account.get();
-        if (!user) throw new Error('User not authenticated');
+        if (!user) {
+            window.location.href = 'login.html';
+            return;
+        }
 
         const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
         
@@ -33,61 +25,13 @@ async function createChatRoom() {
             }
         );
 
-        console.log('Room created:', room);
+        console.log('تم إنشاء الغرفة:', room);
         window.location.href = `chat-room.html?id=${room.$id}`;
         
     } catch (error) {
-        console.error('Error creating room:', error);
+        console.error('خطأ في إنشاء الغرفة:', error);
         alert('حدث خطأ في إنشاء الغرفة');
     }
-}
-
-// تحميل الغرف النشطة
-async function loadActiveRooms() {
-    try {
-        const response = await databases.listDocuments(
-            DATABASE_ID,
-            ROOMS_COLLECTION_ID,
-            [
-                Query.equal('active', true),
-                Query.orderDesc('lastMessage')
-            ]
-        );
-        
-        const roomsContainer = document.getElementById('active-rooms');
-        if (!roomsContainer) return;
-
-        roomsContainer.innerHTML = response.documents.map(room => `
-            <div class="room-card">
-                <div class="room-info">
-                    <h3>${room.name}</h3>
-                    <p>كود الغرفة: ${room.roomId}</p>
-                </div>
-                <button onclick="joinRoom('${room.$id}')" class="btn-secondary">
-                    انضمام
-                </button>
-            </div>
-        `).join('');
-
-    } catch (error) {
-        console.error('Error loading rooms:', error);
-    }
-}
-
-// إظهار الإشعارات
-function showNotification(message, type = 'info') {
-    const notification = document.getElementById('notification');
-    const messageElement = document.getElementById('notification-message');
-    
-    if (!notification || !messageElement) return;
-    
-    messageElement.textContent = message;
-    notification.className = `notification ${type}`;
-    notification.style.display = 'block';
-    
-    setTimeout(() => {
-        notification.style.display = 'none';
-    }, 3000);
 }
 
 // إعداد مستمعي الأحداث
@@ -113,7 +57,7 @@ function setupEventListeners() {
             await account.deleteSession('current');
             window.location.href = 'login.html';
         } catch (error) {
-            console.error('Error logging out:', error);
+            console.error('خطأ في تسجيل الخروج:', error);
         }
     });
 }
@@ -128,9 +72,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         setupEventListeners();
-        await loadActiveRooms();
     } catch (error) {
-        console.error('Error:', error);
+        console.error('خطأ:', error);
         window.location.href = 'login.html';
     }
 });
