@@ -33,12 +33,12 @@ async function createChatRoom() {
             }
         );
 
-        showNotification('تم إنشاء الغرفة بنجاح!', 'success');
-        return room.$id;
+        console.log('Room created:', room);
+        window.location.href = `chat-room.html?id=${room.$id}`;
+        
     } catch (error) {
         console.error('Error creating room:', error);
-        showNotification('حدث خطأ في إنشاء الغرفة', 'error');
-        throw error;
+        alert('حدث خطأ في إنشاء الغرفة');
     }
 }
 
@@ -53,14 +53,9 @@ async function loadActiveRooms() {
                 Query.orderDesc('lastMessage')
             ]
         );
-
+        
         const roomsContainer = document.getElementById('active-rooms');
         if (!roomsContainer) return;
-
-        if (response.documents.length === 0) {
-            roomsContainer.innerHTML = '<p class="no-rooms">لا توجد غرف نشطة حالياً</p>';
-            return;
-        }
 
         roomsContainer.innerHTML = response.documents.map(room => `
             <div class="room-card">
@@ -68,14 +63,14 @@ async function loadActiveRooms() {
                     <h3>${room.name}</h3>
                     <p>كود الغرفة: ${room.roomId}</p>
                 </div>
-                <button onclick="window.joinRoom('${room.$id}')" class="btn-secondary">
+                <button onclick="joinRoom('${room.$id}')" class="btn-secondary">
                     انضمام
                 </button>
             </div>
         `).join('');
+
     } catch (error) {
         console.error('Error loading rooms:', error);
-        showNotification('حدث خطأ في تحميل الغرف', 'error');
     }
 }
 
@@ -102,19 +97,12 @@ function setupEventListeners() {
     const logoutBtn = document.getElementById('logout-btn');
     const roomCodeInput = document.getElementById('room-code');
 
-    createRoomBtn?.addEventListener('click', async () => {
-        try {
-            const roomId = await createChatRoom();
-            window.location.href = `chat-room.html?id=${roomId}`;
-        } catch (error) {
-            console.error('Error in create room click handler:', error);
-        }
-    });
+    createRoomBtn?.addEventListener('click', createChatRoom);
 
     joinRoomBtn?.addEventListener('click', () => {
         const code = roomCodeInput?.value.trim();
         if (!code) {
-            showNotification('الرجاء إدخال كود الغرفة', 'error');
+            alert('الرجاء إدخال كود الغرفة');
             return;
         }
         window.joinRoom(code);
@@ -126,21 +114,25 @@ function setupEventListeners() {
             window.location.href = 'login.html';
         } catch (error) {
             console.error('Error logging out:', error);
-            showNotification('حدث خطأ في تسجيل الخروج', 'error');
         }
     });
 }
 
 // تنفيذ الكود عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', async () => {
-    const user = await checkAuth();
-    if (!user) {
-        window.location.href = 'login.html';
-        return;
-    }
+    try {
+        const user = await account.get();
+        if (!user) {
+            window.location.href = 'login.html';
+            return;
+        }
 
-    setupEventListeners();
-    await loadActiveRooms();
+        setupEventListeners();
+        await loadActiveRooms();
+    } catch (error) {
+        console.error('Error:', error);
+        window.location.href = 'login.html';
+    }
 });
 
 // إضافة دالة الانضمام للغرفة للنافذة العالمية
