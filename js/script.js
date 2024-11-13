@@ -1,4 +1,4 @@
-import { account, databases, DATABASE_ID, ROOMS_COLLECTION_ID, USERS_COLLECTION_ID } from './appwrite-config.js';
+import { account, databases, DATABASE_ID, ROOMS_COLLECTION_ID, USERS_COLLECTION_ID, Query } from './appwrite-config.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -22,12 +22,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
+            document.getElementById('username').textContent = 'مرحباً';
         }
 
-        // إعداد الأحداث
         setupEventListeners();
-        
-        // تحميل الغرف النشطة
         loadActiveRooms();
 
     } catch (error) {
@@ -113,21 +111,26 @@ function showNotification(message, type = 'info') {
 
 // دالة إنشاء غرفة جديدة
 async function createChatRoom() {
-    const roomId = Math.random().toString(36).substr(2, 9);
     try {
-        const response = await databases.createDocument(
+        const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
+        const user = await account.get();
+
+        const room = await databases.createDocument(
             DATABASE_ID,
             ROOMS_COLLECTION_ID,
             'unique()',
             {
                 roomId: roomId,
+                name: `غرفة ${roomId}`,
+                createdBy: user.$id,
                 createdAt: new Date().toISOString(),
                 active: true
             }
         );
-        return response.$id;
+
+        window.location.href = `chat-room.html?id=${room.$id}`;
     } catch (error) {
         console.error('Error creating room:', error);
-        throw error;
+        alert('حدث خطأ في إنشاء الغرفة');
     }
 } 

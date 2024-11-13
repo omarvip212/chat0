@@ -1,4 +1,4 @@
-const { Client, Account, Databases, Storage } = Appwrite;
+import { Client, Account, Databases, Storage, Query } from 'appwrite';
 
 const client = new Client();
 
@@ -16,4 +16,7 @@ export const DATABASE_ID = 'love-chat-db';
 export const MESSAGES_COLLECTION_ID = 'messages';
 export const ROOMS_COLLECTION_ID = 'rooms';
 export const USERS_COLLECTION_ID = 'users';
-export const BUCKET_ID = 'media-files'; 
+export const BUCKET_ID = 'media-files';
+
+export { Query };
+  
